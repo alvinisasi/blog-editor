@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import { convertFromRaw } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
 import firebase from '../firebase.js'
+import $ from 'jquery'
 class Posts extends Component {
   constructor(props){
     super(props)
@@ -10,6 +13,10 @@ class Posts extends Component {
       date: new Date()
     }
   }
+
+  convertJSONFromContent = (text) =>{
+    stateToHTML(convertFromRaw(JSON.parse(text)))
+  } 
 
   onCollectionUpdate = (querySnapshot) => {
     const posts = []
@@ -31,6 +38,7 @@ class Posts extends Component {
   
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+    $('#content').html(this.state.content)
   }
 
   render(){
@@ -41,7 +49,7 @@ class Posts extends Component {
           <div className='w-100 w-60-ns pr3-ns order-2 order-1-ns'>
             <h1 className='f3 mt0 lh-title'>{post.title}</h1>
             <p className='f5 f4-l lh-copy i'>{post.category}</p>
-            <p className='f5 f4-l lh-copy'>{post.content}</p>
+            <div className='f5 f4-l lh-copy' id='content'>{post.content}</div>
           </div>
           <div className='pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns'>
             <img src='http://mrmrs.github.io/photos/cpu.jpg' className='db' alt='A dimly lit room with a computer interface terminal.' />

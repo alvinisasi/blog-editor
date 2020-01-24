@@ -93,6 +93,7 @@ export default class EditPost extends Component {
             <CKEditor
               className='db border-box hover-black w-100 ba b--black-50 pa2 br2 mb2' id='editor'
               editor={ ClassicEditor }
+              data={ this.state.content }
               onInit={ editor => {
                 // You can store the "editor" and use when it is needed.
                 console.log( 'Editor is ready to use!', editor );

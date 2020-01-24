@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import firebase from '../firebase'
+// import { EditorState, convertToRaw } from 'draft-js'
+// import { Editor } from 'react-draft-wysiwyg'
+// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CKEditor from '@ckeditor/ckeditor5-react'
 
@@ -15,7 +18,8 @@ export default class AddPost extends Component {
       title: '',
       category:'',
       content: '',
-      date: ''
+      date: '',
+      //editorState: EditorState.createEmpty()
     }
   }
 
@@ -25,6 +29,7 @@ export default class AddPost extends Component {
     this.setState({
       date: formatDate.toString()
     })
+    
   }
 
   onChangeTitle(e){
@@ -39,9 +44,10 @@ export default class AddPost extends Component {
     })
   }
   /*
-  onChangeContent(e){
+  onChangeContent(editorState){
     this.setState({
-      content: e.target.value
+      editorState,
+      content: convertToRaw(this.state.editorState.getCurrentContent())
     })
   }
   */
@@ -80,6 +86,12 @@ export default class AddPost extends Component {
           </div>
           <div className='cf mh3 pa3'>
             <label className='db fw1 ma2'>Content</label>
+            {/* <Editor 
+              editorState={this.state.editorState} 
+              onEditorStateChange={this.onChangeContent} 
+              wrapperClassName="demo-wrapper" 
+              editorClassName="editer-content"
+            /> */}
             <CKEditor
               className='db border-box hover-black w-100 ba b--black-50 pa2 br2 mb2' id='editor'
               editor={ ClassicEditor }
